@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^(www\.)?der-fabio.com$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^(www\.)?niepha.us$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^der-fabio.de$ [NC]
+RewriteRule (.*) http://www.der-fabio.de/$1 [R=301,L]
