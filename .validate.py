@@ -3,7 +3,7 @@ import time
 from py_w3c.validators.html.validator import HTMLValidator
 
 with open('CNAME', 'r') as f:
-    cname = f.readline()
+    cname = f.readline().splitlines()[0]
 
 vld = HTMLValidator()
 vld.validate("http://%s/" % cname)
