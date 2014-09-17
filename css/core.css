@@ -35,10 +35,10 @@ a:hover {
 
 
 #footer {
-    margin-top: 20%;
+    margin-top: 15%;
     background-image: url(/images/footer.png);
     background-image: -webkit-image-set(url(/images/footer.png) 1x, url(/images/footer@2x.png) 2x);
-    height: 10%;
+    height: 5%;
     width: 90%;
     max-width: 453px;
 }
