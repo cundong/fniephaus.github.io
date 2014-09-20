@@ -7,14 +7,16 @@
             data: pluginName
         },
 
+        popupOpened = false,
+
         agent = navigator.userAgent,
 
-        IS_IPAD = agent.match(/iPad/i) != null,
-        IS_IPHONE = !IS_IPAD && ((agent.match(/iPhone/i) != null) || (agent.match(/iPod/i) != null)),
+        IS_IPAD = agent.match(/iPad/i) !== null,
+        IS_IPHONE = !IS_IPAD && ((agent.match(/iPhone/i) !== null) || (agent.match(/iPod/i) !== null)),
         IS_IOS = IS_IPAD || IS_IPHONE,
-        IS_ANDROID = !IS_IOS && agent.match(/android/i) != null,
+        IS_ANDROID = !IS_IOS && agent.match(/android/i) !== null,
         IS_MOBILE = IS_IOS || IS_ANDROID;
- 
+
     var Callback = function ($element, settings) {
         var href = $element.attr('href'),
             applink = $element.data(settings.data);
@@ -34,13 +36,15 @@
             return Link(href, popup);
         }
 
-        window.location = applink;
+        PopUp(applink);
 
         setTimeout(function() {
-            if (!BrowserHidden) {
+            if (BrowserHidden()) {
+                popupOpened.close();
+            } else {
                 Link(href, popup);
             }
-        }, 100);
+        }, 300);
     }
 
     var BrowserHidden = function () {
@@ -58,13 +62,31 @@
     }
 
     var Link = function (href, popup) {
-        if ((popup === 'auto') && /^https?:\/\/(www\.)?(facebook|twitter)\.com/i.test(href)) {
-            return window.open(href, pluginName).focus();
+        if ((popup === 'auto') && /^https?:\/\/(www\.)?(facebook|twitter|linkedin)\.com/i.test(href)) {
+            return PopUp(href);
         } else if ((popup !== 'auto') && popup) {
-            return window.open(href, pluginName).focus();
+            return PopUp(href);
+        }
+
+        if (popupOpened && !popupOpened.closed) {
+            popupOpened.close();
         }
 
         window.location = href;
+    }
+
+    var PopUp = function (href) {
+        if (popupOpened && !popupOpened.closed) {
+            popupOpened.location.replace(href);
+            popupOpened.focus();
+
+            return popupOpened;
+        }
+
+        popupOpened = window.open(href, pluginName);
+        popupOpened.focus();
+
+        return popupOpened;
     }
 
     var Plugin = function (element, options) {
@@ -89,7 +111,7 @@
             $(this.element).off('.' + pluginName);
         }
     };
- 
+
     $.fn[pluginName] = function (options) {
         if ((options === undefined) || (typeof options === 'object')) {
             return this.each(function () {
@@ -98,7 +120,7 @@
                 }
             });
         }
- 
+
         if ((typeof options !== 'string') || (options[0] === '_') || (options === 'init')) {
             return true;
         }
