@@ -12,7 +12,7 @@ $(function() {
             var app_link = $(this).attr('data-app');
             if (typeof app_link !== typeof undefined && app_link !== false) {
                 setTimeout(function () {
-                    if (new Date().getTime() - event.timeStamp < 100) {
+                    if (new Date().getTime() - event.timeStamp < 150) {
                         window.location = href;
                     }
                 }, 100);
