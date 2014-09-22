@@ -15,7 +15,7 @@ $(function() {
                     if (new Date().getTime() - event.timeStamp < 100) {
                         window.location = href;
                     }
-                }, 25);
+                }, 100);
                 window.location = app_link;
             }
             event.preventDefault();
