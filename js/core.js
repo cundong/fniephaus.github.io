@@ -4,19 +4,7 @@ $(function() {
         is_iphone = !is_ipad && ((agent.match(/iPhone/i) !== null) || (agent.match(/iPod/i) !== null)),
         is_ios = is_ipad || is_iphone,
         is_android = !is_ios && agent.match(/android/i) !== null,
-        is_mobile = is_ios || is_android,
-        browser_hidden = function () {
-            if (typeof document.hidden !== 'undefined') {
-              return document.hidden;
-            } else if (typeof document.mozHidden !== 'undefined') {
-              return document.mozHidden;
-            } else if (typeof document.msHidden !== 'undefined') {
-              return document.msHidden;
-            } else if (typeof document.webkitHidden !== 'undefined') {
-              return document.webkitHidden;
-            }
-            return false;
-        };
+        is_mobile = is_ios || is_android;
 
     $('a').click(function( event ) {
         if (is_mobile) {
@@ -24,7 +12,7 @@ $(function() {
             var app_link = $(this).attr('data-app');
             if (typeof app_link !== typeof undefined && app_link !== false) {
                 setTimeout(function () {
-                    if (!browser_hidden()){
+                    if (new Date().getTime() - event.timeStamp < 100) {
                         window.location = href;
                     }
                 }, 25);
